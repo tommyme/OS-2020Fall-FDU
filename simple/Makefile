@@ -1,4 +1,4 @@
-GCCPREFIX := aarch64-linux-gnu-
+GCCPREFIX := aarch64-elf-
 
 CC := $(GCCPREFIX)gcc
 LD := $(GCCPREFIX)ld
@@ -27,7 +27,7 @@ hello.img: $(OBJ) Makefile
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 run: hello.img
-	qemu-system-aarch64 -M raspi3 -kernel $< -nographic
+	qemu-system-aarch64 -M raspi3b -kernel $< -nographic
 
 qemu-gdb: hello.img
 	qemu-system-aarch64 -M raspi3 -kernel $< -gdb tcp::1234 -nographic -S

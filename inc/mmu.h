@@ -15,7 +15,7 @@
  *  \PTX(va, 0)/\PTX(va, 1)/\PTX(va, 2)/\PTX(va, 3)/
  */
 
-#define PGSIZE 4096
+#define PGSIZE 4096     // 2**12 2**9 2**3
 #define PGSHIFT 12
 #define L0SHIFT 39
 #define L1SHIFT 30

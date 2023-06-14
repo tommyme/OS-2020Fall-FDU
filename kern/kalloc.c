@@ -20,9 +20,11 @@ struct {
     struct run *free_list; /* Free list of physical pages */
 } kmem;
 
+
 void
 alloc_init()
 {
+    // 回收所有可用的物理内存
     free_range(end, P2V(PHYSTOP));
 }
 
@@ -38,14 +40,18 @@ kfree(char *v)
     /* Fill with junk to catch dangling refs. */
     memset(v, 1, PGSIZE);
     
-    /* TODO: Your code here. */
+    // 转指针类型
+    r = (struct run*)v;
+    r->next = kmem.free_list;
+    kmem.free_list = r;
 }
 
+// 一页一页 free
 void
-free_range(void *vstart, void *vend)
+free_range(void *vstart, void *vend)   
 {
     char *p;
-    p = ROUNDUP((char *)vstart, PGSIZE);
+    p = ROUNDUP((char *)vstart, PGSIZE);    // 向上取整
     for (; p + PGSIZE <= (char *)vend; p += PGSIZE)
         kfree(p);
 }
@@ -58,7 +64,13 @@ free_range(void *vstart, void *vend)
 char *
 kalloc()
 {
-    /* TODO: Your code here. */
+    if (!kmem.free_list) {
+        return 0;
+    }
+    struct run *v = kmem.free_list;
+    memset(v, 0, PGSIZE);
+    kmem.free_list = v->next;
+    return v;
 }
 
 void

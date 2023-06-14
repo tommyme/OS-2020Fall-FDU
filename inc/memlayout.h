@@ -13,7 +13,7 @@
 #ifndef __ASSEMBLER__
 
 #include <stdint.h>
-#define V2P(a) (((uint64_t) (a)) - KERNBASE)
+#define V2P(a) (((uint64_t) (a)) - KERNBASE)    // 虚拟地址 转 物理地址
 #define P2V(a) ((void *)(((char *) (a)) + KERNBASE))
 
 #endif
