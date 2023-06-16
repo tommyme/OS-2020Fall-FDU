@@ -26,11 +26,12 @@ hello.img: $(OBJ) Makefile
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+# there is no raspi3 machine in qemu on m1 mac, use raspi3b instead
 run: hello.img
-	qemu-system-aarch64 -M raspi3 -kernel $< -nographic
+	qemu-system-aarch64 -M raspi3b -kernel $< -nographic
 
 qemu-gdb: hello.img
-	qemu-system-aarch64 -M raspi3 -kernel $< -gdb tcp::1234 -nographic -S
+	qemu-system-aarch64 -M raspi3b -kernel $< -gdb tcp::1234 -nographic -S
 
 gdb:
 	# gdb-multiarch -n -x .gdbinit
